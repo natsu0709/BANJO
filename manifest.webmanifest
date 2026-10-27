@@ -1,0 +1,17 @@
+{
+  "name": "BANJO!",
+  "short_name": "BANJO!",
+  "description": "オセロ・五目並べ・将棋・チェス・ヨット・花札を友だちとオンライン対戦",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffd53d",
+  "theme_color": "#ffd53d",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
