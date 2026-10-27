@@ -1,6 +1,6 @@
 // BANJO! のオフライン対応。
 // サイトのファイルは「まずネットから最新を取り、つながらない時だけ保存版を使う」ので、更新はすぐ反映されます。
-const CACHE = 'banjo-v1';
+const CACHE = 'banjo-v2';
 const SHELL = ['./', './index.html', './firebase-config.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -25,9 +25,9 @@ self.addEventListener('fetch', e => {
     // 自分のサイトのファイル:ネット優先、だめなら保存版
     e.respondWith(
       fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(req, copy));
-        return res;
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; }
+        // 404 などのときは、前に保存した正常な版があればそちらを出す
+        return caches.match(req).then(r => r || res);
       }).catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
     );
   } else if (url.hostname === 'www.gstatic.com' || url.hostname === 'fonts.gstatic.com') {
