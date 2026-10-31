@@ -149,7 +149,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline
 .kk-row{display:flex;gap:4px;flex-wrap:wrap;align-items:flex-end;min-height:20px}
 .kk-hand{justify-content:center;gap:6px;padding-top:10px}
 .kk-table{background:var(--board);border-radius:10px;padding:10px;display:flex;gap:10px;align-items:center;box-shadow:inset 0 0 0 2px var(--line)}
-.kk-field{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;min-height:80px;align-content:center}
+.kk-field{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;flex:1;min-width:0;min-height:80px;align-content:center;align-items:start}
+.kk-field .hc{width:100%;max-width:62px;justify-self:center}
 .kk-stock{display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:12px;flex:none}
 .kk-caps{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:flex-end;min-height:20px}
 .kk-caps .grp{display:flex;gap:2px;align-items:flex-end}
@@ -287,12 +288,12 @@ header .sub{grid-column:1/-1;justify-self:start}
 .yt-sheet td.cat .cn{font-weight:700;font-size:14px;vertical-align:middle;margin-left:8px}
 .yt-sheet td.cat .cn small{display:block;font-size:10px;color:var(--muted);font-weight:700;margin-top:-2px}
 .yt-sheet td.cat .cw{display:flex;align-items:center}
-.md{display:inline-grid;grid-template:repeat(3,1fr)/repeat(3,1fr);width:24px;height:24px;padding:3px;box-sizing:border-box;border-radius:6px;background:#fff;border:2px solid #1d1a2f;vertical-align:middle;flex:none}
-.md i{display:block;border-radius:50%;background:#1d1a2f;transform:scale(.8);visibility:hidden}
-.md.f1 i:nth-child(5){background:#d61f3a;transform:scale(1.1)}
-.md.f1 i:nth-child(5),.md.f2 i:is(:nth-child(3),:nth-child(7)),.md.f3 i:is(:nth-child(3),:nth-child(5),:nth-child(7)),
-.md.f4 i:is(:nth-child(1),:nth-child(3),:nth-child(7),:nth-child(9)),.md.f5 i:is(:nth-child(1),:nth-child(3),:nth-child(5),:nth-child(7),:nth-child(9)),
-.md.f6 i:is(:nth-child(1),:nth-child(3),:nth-child(4),:nth-child(6),:nth-child(7),:nth-child(9)){visibility:visible}
+.ymd{display:inline-grid;grid-template:repeat(3,1fr)/repeat(3,1fr);width:24px;height:24px;padding:3px;box-sizing:border-box;border-radius:6px;background:#fff;border:2px solid #1d1a2f;vertical-align:middle;flex:none}
+.ymd i{display:block;border-radius:50%;background:#1d1a2f;transform:scale(.8);visibility:hidden}
+.ymd.f1 i:nth-child(5){background:#d61f3a;transform:scale(1.1)}
+.ymd.f1 i:nth-child(5),.ymd.f2 i:is(:nth-child(3),:nth-child(7)),.ymd.f3 i:is(:nth-child(3),:nth-child(5),:nth-child(7)),
+.ymd.f4 i:is(:nth-child(1),:nth-child(3),:nth-child(7),:nth-child(9)),.ymd.f5 i:is(:nth-child(1),:nth-child(3),:nth-child(5),:nth-child(7),:nth-child(9)),
+.ymd.f6 i:is(:nth-child(1),:nth-child(3),:nth-child(4),:nth-child(6),:nth-child(7),:nth-child(9)){visibility:visible}
 .bdg{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;border:2px solid #1d1a2f;color:#fff;font-family:var(--f-display);font-size:11px;flex:none;box-sizing:border-box}
 .bdg.star{background:#ffd53d;color:#1d1a2f;font-size:13px}
 .yt-sheet tr.sec td{text-align:left;padding:6px 10px;border-bottom:0}
@@ -441,6 +442,9 @@ html.splashing header,html.splashing #lobby{visibility:hidden}
 @keyframes fxShake{25%{translate:-10px 0}75%{translate:10px 0}}
 @keyframes fxFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.fx *,.fx::before{animation:none!important}.fx canvas{display:none}}
+
+#kkFx{position:fixed;inset:0;pointer-events:none;z-index:45}
+.kk-fly{position:fixed;margin:0;box-shadow:0 6px 14px rgba(0,0,0,.35)}
 
 /* ===== POP:ロビーとゲーム選択。太い墨線+ずらし影のステッカー調、ゲームごとに色を持つ ===== */
 :root{--ray:rgba(255,255,255,.3); --pt-fill:#fffdf5; --pt-stroke:#1d1a2f; --c-oth:#1fae78; --c-gmk:#ff8a2b; --c-sho:#ff4f5e; --c-chs:#3f6fff; --c-kk:#a35cff; --c-yt:#e0447f; --dot:rgba(29,26,47,.13); --shadow:#1d1a2f}
@@ -607,7 +611,7 @@ html.splashing header,html.splashing #lobby{visibility:hidden}
         <button data-game="shogi" style="--gc:var(--c-sho)"><span class="ic ic-sho" aria-hidden="true"><span class="koma">王</span></span><b class="gname">将棋</b><span class="gtag">本将棋・平手</span></button>
         <button data-game="chess" style="--gc:var(--c-chs)"><span class="ic ic-chs" aria-hidden="true">♞&#xFE0E;</span><b class="gname">チェス</b><span class="gtag">チェックメイトを狙え</span></button>
         <button data-game="yacht" style="--gc:var(--c-yt)"><span class="ic ic-yt" aria-hidden="true"><i class="d5"></i><i class="d3"></i></span><b class="gname">ヨット</b><span class="gtag">サイコロで役をそろえる</span></button>
-        <button data-game="koikoi" style="--gc:var(--c-kk)"><span class="ic ic-kk" aria-hidden="true" id="kkIcon"></span><b class="gname">花札(こいこい)</b><span class="gtag">12か月勝負・オンライン専用</span></button>
+        <button data-game="koikoi" style="--gc:var(--c-kk)"><span class="ic ic-kk" aria-hidden="true" id="kkIcon"></span><b class="gname">花札(こいこい)</b><span class="gtag">6か月・12か月勝負・オンライン専用</span></button>
       </div>
     </div>
   </section>
@@ -699,6 +703,21 @@ html.splashing header,html.splashing #lobby{visibility:hidden}
 </div>
 
 <div class="toast" id="toast" role="status" hidden></div>
+<div class="sheet" id="kkRules" role="dialog" aria-modal="true" aria-labelledby="kkRulesTitle" hidden>
+  <div class="sheet-panel">
+    <div class="sheet-head"><h2 id="kkRulesTitle">花札(こいこい)のルール</h2><button id="kkRCancel" type="button">やめる</button></div>
+    <div class="sheet-body">
+      <label class="tgl" for="kkDouble"><span>7点以上で得点2倍<small class="note" style="display:block;font-weight:400">オフにすると、7点以上でもそのままの点数</small></span><input type="checkbox" id="kkDouble" checked></label>
+      <p class="note">こいこいは、1人ひと月に1回までです。</p>
+      <h3 class="sh3">何か月勝負にする?</h3>
+      <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button id="kkR6" type="button" class="primary">6か月勝負</button>
+        <button id="kkR12" type="button" class="primary">12か月勝負</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden>
   <div class="sheet-panel">
     <div class="sheet-head"><h2 id="setTitle">設定</h2><button id="setClose" type="button">閉じる</button></div>
@@ -1026,18 +1045,19 @@ function kkYaku(caps){
 const kkScore=caps=>kkYaku(caps).reduce((s,y)=>s+y[1],0);
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function fourSame(cards){const c={};for(const id of cards){c[mon(id)]=(c[mon(id)]||0)+1;if(c[mon(id)]===4)return true}return false}
-function kkDeal(oya,month,totals){
+function kkDeal(oya,month,totals,rules){
   let deck,hands,field;
   do{deck=shuffle([...Array(48).keys()]);hands={B:deck.splice(0,8),W:deck.splice(0,8)};field=deck.splice(0,8)}while(fourSame(field));
   return{deck,hands,field,caps:{B:[],W:[]},phase:'play',turn:oya,pend:null,drawn:null,koi:{B:0,W:0},ys:{B:0,W:0},
-    month,oya,totals,result:null,ev:null,matchOver:false};
+    month,oya,totals,result:null,ev:null,matchOver:false,seq:null,rules:rules||{months:12,double7:true}};
 }
 const kMatches=(field,card)=>field.filter(f=>mon(f)===mon(card));
 function kPlace(k,c,card,choice){
   const ms=kMatches(k.field,card);
-  if(!ms.length){k.field.push(card);return}
+  if(!ms.length){k.field.push(card);return[]}
   const take=ms.length===2?[choice]:ms;
   k.field=k.field.filter(f=>!take.includes(f));k.caps[c].push(card,...take);
+  return take;
 }
 function kAfter(k,c){
   const s=kkScore(k.caps[c]);
@@ -1057,7 +1077,7 @@ function kRoundEnd(k,w){
   else{
     const yk=kkYaku(k.caps[w]),base=yk.reduce((s,y)=>s+y[1],0),notes=[];
     let pts=base;
-    if(base>=7){pts*=2;notes.push('7点以上で2倍')}
+    if(base>=7&&(!k.rules||k.rules.double7!==false)){pts*=2;notes.push('7点以上で2倍')}
     if(k.koi[opp(w)]>0){pts*=2;notes.push('相手のこいこい返しで2倍')}
     k.totals={...k.totals,[w]:k.totals[w]+pts};
     k.result={winner:w,pts,base,yaku:yk.map(([n,p])=>({n,p})),notes}; // 配列の入れ子は保存できないので {n,p} にする
@@ -1071,30 +1091,34 @@ function kPlay(k0,card,choice){
   const ms=kMatches(k.field,card);
   if(ms.length===2&&!ms.includes(choice))return null;
   k.hands[c]=k.hands[c].filter(x=>x!==card);k.ev=null;
-  kPlace(k,c,card,choice);
+  const steps=[{t:'play',card,match:kPlace(k,c,card,choice)}];
   const d=k.deck.pop();k.drawn=d;
-  if(kMatches(k.field,d).length===2){k.phase='pickDraw';k.pend=d;return k}
-  kPlace(k,c,d,null);
+  const sid=((k0.seq&&k0.seq.id)||0)+1;
+  if(kMatches(k.field,d).length===2){steps.push({t:'draw',card:d,pend:true});k.seq={id:sid,c,steps};k.phase='pickDraw';k.pend=d;return k}
+  steps.push({t:'draw',card:d,match:kPlace(k,c,d,null)});
+  k.seq={id:sid,c,steps}; // 画面で「出す→めくる→取る」を順に見せるための記録
   return kAfter(k,c);
 }
 function kPickDraw(k0,choice){
   const k=JSON.parse(JSON.stringify(k0)),c=k.turn;
   if(!kMatches(k.field,k.pend).includes(choice))return null;
-  kPlace(k,c,k.pend,choice);k.pend=null;
+  const card=k.pend,take=kPlace(k,c,card,choice);k.pend=null;
+  k.seq={id:((k0.seq&&k0.seq.id)||0)+1,c,steps:[{t:'pick',card,match:take}]};
   return kAfter(k,c);
 }
 function kDecide(k0,koi){
   const k=JSON.parse(JSON.stringify(k0)),c=k.turn;
-  if(koi){k.koi[c]++;k.ev={type:'koi',by:c};return kEndTurn(k,c)}
+  if(koi&&!(k.koi[c]>=1)){k.koi[c]++;k.ev={type:'koi',by:c};return kEndTurn(k,c)} // こいこいはひと月に1回まで
   return kRoundEnd(k,c);
 }
 function kNext(k0){
-  if(k0.month>=12)return{...k0,matchOver:true};
-  return kkDeal(opp(k0.oya),k0.month+1,k0.totals); // 2月以降は親が交互
+  const last=(k0.rules&&k0.rules.months)||12;
+  if(k0.month>=last)return{...k0,matchOver:true};
+  return kkDeal(opp(k0.oya),k0.month+1,k0.totals,k0.rules); // 2月以降は親が交互
 }
 // 1月の親決め:山から裏向きで3枚、2人が1枚ずつ引き、早い月を引いた人が親
 function kOyaCards(){return shuffle([...Array(48).keys()]).slice(0,3)}
-function kOyaStart(totals){return{...kkDeal('B',1,totals),phase:'oyaPick',oyaCards:kOyaCards(),picks:{B:null,W:null},oyaRedo:false}}
+function kOyaStart(totals,rules){return{...kkDeal('B',1,totals,rules),phase:'oyaPick',oyaCards:kOyaCards(),picks:{B:null,W:null},oyaRedo:false}}
 function kOyaResolve(k){
   const{B,W}=k.picks;
   if(B===W)return{kk:{picks:{W:null}}}; // 同じ札を同時に選んだときは後手側が選び直し
@@ -1201,13 +1225,13 @@ const GAMES={
   },
   koikoi:{
     label:'花札(こいこい)',names:STONE,onlineOnly:true,noUndo:true,
-    init:()=>({kk:kOyaStart({B:0,W:0})}),
+    init:o=>({kk:kOyaStart({B:0,W:0},o&&o.rules)}),
     scores:g=>[`${g.kk.totals.B}点`,`${g.kk.totals.W}点`],
     result(g){const t=g.kk.totals;return t.B===t.W?`引き分け(${t.B}点対${t.W}点)`:`${t.B>t.W?'黒':'白'}の勝ち(${t.B}点対${t.W}点)`}
   }
 };
 const SNAP_KEYS=['board','hands','turn','pass','status','last','winner','win','check','resigned','moveNo','castle','ep','half','reps','drawReason'];
-function freshGame(key){return{game:key,...GAMES[key].init(),turn:'B',pass:null,status:'playing',last:null,moveNo:0,resigned:null,winner:null,win:null,check:false,hist:[],undoReq:null}}
+function freshGame(key,opts){return{game:key,...GAMES[key].init(opts),turn:'B',pass:null,status:'playing',last:null,moveNo:0,resigned:null,winner:null,win:null,check:false,hist:[],undoReq:null}}
 function snap(g){const s={};for(const k of SNAP_KEYS)if(g[k]!==undefined)s[k]=g[k];return s}
 
 /* ---------- state ---------- */
@@ -1310,7 +1334,7 @@ function hfHelpShow(tab){
       t.append(b,pt,ds);r.appendChild(t);body.appendChild(r);
     }
     const ru=document.createElement('p');ru.className='rules';
-    ru.textContent='点数のルール:役ができたら「こいこい」で続けるか「勝負」であがるかを選びます。合計が7点以上なら2倍。相手がこいこいしている間にあがると、さらに2倍になります。役は重ねて数えます(例:赤短と短冊5枚は両方つく)。';
+    ru.textContent='点数のルール:役ができたら「こいこい」で続けるか「勝負」であがるかを選びます(こいこいは1人ひと月に1回まで)。「7点以上で2倍」を選んだ場合は、合計が7点以上なら2倍。相手がこいこいしている間にあがると、さらに2倍になります。役は重ねて数えます(例:赤短と短冊5枚は両方つく)。';
     body.appendChild(ru);
   }else{
     for(let m=1;m<=12;m++){
@@ -1494,8 +1518,7 @@ function soundOnChange(g,key){
   const a=prev.kk,b=now.kk;
   if(b.month!==a.month||(a.phase==='oyaShow'&&b.phase==='play')){playSfx('shuffle');for(let k=0;k<5;k++)playSfx('place',.9+k*.1);return} // 切って配る
   if(b.picks!==a.picks&&b.phase.startsWith('oya')){playSfx('flip');return}
-  if(b.deck<a.deck){playSfx('place');if(b.caps>a.caps)playSfx('collect',.16);playSfx('flip',.38);return}
-  if(b.caps>a.caps)playSfx('collect');
+  // 出す・めくる・取る音は札の動きに合わせて鳴らす(kkAnimate)
 }
 
 const TRACKS={lobby:'bgm.mp3',wa:'bgm-wa.mp3',play:'bgm-play.mp3',chess:'bgm-chess.mp3'};
@@ -1737,7 +1760,7 @@ function yachtMsg(g,mc){
   if(y.rolls===0)return `${who}の番です。サイコロをふろう`;
   return left>0?`${who}の番:あと${left}回ふれる!`:`${who}の番:マスを選んで書き込もう`;
 }
-function miniDie(v){const d=document.createElement('span');d.className='md f'+v;for(let k=0;k<9;k++)d.appendChild(document.createElement('i'));return d}
+function miniDie(v){const d=document.createElement('span');d.className='ymd f'+v;for(let k=0;k<9;k++)d.appendChild(document.createElement('i'));return d}
 const YICON={choice:['C','#3f6fff'],four:['4','#1fae78'],full:['FH','#ff8a2b'],sst:['S','#a35cff'],bst:['B','#e0447f'],yacht:['Y','#ff4f5e']};
 function renderYacht(g,mc){
   $('handTop').hidden=true;$('handBot').hidden=true;
@@ -2289,10 +2312,81 @@ function ytHold(i){
   const y=g.yt;if(S.ytAnim||y.rolls<1||y.rolls>=3||!y.dice[i])return;
   playSfx('dgrab');commit({type:'hold',i});
 }
+
+/* ---------- 花札の札の動き ---------- */
+function kkSnap(){
+  const R=e=>e?e.getBoundingClientRect():null,r={hand:{},field:{},opp:[],stock:null,drawn:null,ok:false};
+  document.querySelectorAll('#kkMyHand .hc').forEach(e=>{r.hand[e.dataset.cid]=R(e)});
+  document.querySelectorAll('#kkField .hc').forEach(e=>{r.field[e.dataset.cid]=R(e)});
+  document.querySelectorAll('#kkOppHand .hc').forEach(e=>r.opp.push(R(e)));
+  r.stock=R(document.querySelector('#kk .kk-stock .hc'));r.drawn=R(document.querySelector('#kkDrawn .hc'));
+  r.ok=!!(r.stock&&r.stock.width);return r;
+}
+S.kkHide=new Set();
+function kkApplyHide(){
+  if(!S.kkHide.size)return;
+  document.querySelectorAll('#kkField .hc,#kkMyCaps .hc,#kkOppCaps .hc,#kkDrawn .hc').forEach(e=>{e.style.visibility=S.kkHide.has(+e.dataset.cid)?'hidden':''});
+}
+function kkLayer(){let l=$('kkFx');if(!l){l=document.createElement('div');l.id='kkFx';document.body.appendChild(l)}return l}
+function kkClone(id,rect,back){
+  const e=document.createElement('div');e.className='hc kk-fly'+(back?' back':'');
+  if(!back){const im=document.createElement('img');im.src=window.HF_IMG[id];im.alt='';e.appendChild(im)}
+  Object.assign(e.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});
+  kkLayer().appendChild(e);return e;
+}
+function kkFace(e,id){e.classList.remove('back');if(!e.firstChild){const im=document.createElement('img');im.src=window.HF_IMG[id];im.alt='';e.appendChild(im)}}
+function kkMove(e,to,dur,lift){
+  const fr={left:e.style.left,top:e.style.top,width:e.style.width,height:e.style.height};
+  const end={left:to.left+'px',top:to.top+'px',width:to.width+'px',height:to.height+'px'};
+  const mid={...end,offset:.6,transform:lift?'scale(1.12) rotate(-4deg)':'none'};
+  Object.assign(e.style,end);
+  return e.animate([fr,mid,{...end,transform:'none'}],{duration:dur,easing:'cubic-bezier(.3,.7,.3,1)'}).finished.catch(()=>{});
+}
+function kkFlip(e,id){
+  return e.animate([{transform:'scaleX(1)'},{transform:'scaleX(0)'}],{duration:110,easing:'ease-in'}).finished.catch(()=>{})
+    .then(()=>{kkFace(e,id);return e.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:130,easing:'ease-out'}).finished.catch(()=>{})});
+}
+const kkWait=ms=>new Promise(r=>setTimeout(r,ms));
+const kkQ=sel=>{const e=document.querySelector(sel);return e?e.getBoundingClientRect():null};
+async function kkAnimate(k,prev,mc){
+  const seq=k.seq,me=mc||'B',mine=seq.c===me,capSel=mine?'#kkMyCaps':'#kkOppCaps';
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){playSfx('place');return}
+  const ids=[];seq.steps.forEach(st=>{ids.push(st.card);(st.match||[]).forEach(m=>ids.push(m))});
+  ids.forEach(i=>S.kkHide.add(i));S.kkAnimating=true;kkApplyHide();$('kkPrompt').hidden=true;
+  const fieldClone={};
+  seq.steps.forEach(st=>(st.match||[]).forEach(m=>{if(prev.field[m])fieldClone[m]=kkClone(m,prev.field[m])}));
+  const off=r=>({left:r.left+r.width*.22,top:r.top+r.height*.16,width:r.width,height:r.height});
+  try{
+    for(const st of seq.steps){
+      let src,e;
+      if(st.t==='play'){src=mine?prev.hand[st.card]:prev.opp[prev.opp.length-1];if(!src)src=prev.stock;e=kkClone(st.card,src,!mine);if(!mine)kkFlip(e,st.card)}
+      else if(st.t==='draw'){e=kkClone(st.card,prev.stock,true);playSfx('flip');await kkFlip(e,st.card);await kkWait(90)}
+      else{src=prev.drawn||prev.stock;e=kkClone(st.card,src)}
+      const m=st.match||[];
+      let dst;
+      if(m.length&&fieldClone[m[0]])dst=off(prev.field[m[0]]);
+      else if(st.pend)dst=kkQ('#kkDrawn .hc');
+      else dst=kkQ(`#kkField [data-cid="${st.card}"]`);
+      if(!dst)dst=prev.stock;
+      if(m.length||st.pend||st.t!=='draw'||true){await kkMove(e,dst,330,true);playSfx('place')}
+      if(m.length){
+        await kkWait(260);
+        playSfx('collect');
+        const moves=[st.card,...m].map(id=>{const el=id===st.card?e:fieldClone[id];const to=kkQ(`${capSel} [data-cid="${id}"]`);return el&&to?kkMove(el,to,380):null}).filter(Boolean);
+        await Promise.all(moves);
+        [st.card,...m].forEach(id=>{S.kkHide.delete(id);const el=id===st.card?e:fieldClone[id];el&&el.remove()});
+      }else{S.kkHide.delete(st.card);e.remove()}
+      kkApplyHide();
+      await kkWait(80);
+    }
+  }catch(err){console.warn('kk anim',err)}
+  Object.values(fieldClone).forEach(el=>el.remove());
+  kkLayer().innerHTML='';S.kkHide.clear();S.kkAnimating=false;kkApplyHide();render();
+}
 /* ---------- こいこい描画 ---------- */
 function cardEl(id,size){
   const c=CARDS[id],el=document.createElement('button');el.type='button';
-  el.className=`hc ${size}`;const im=document.createElement('img');im.src=window.HF_IMG[id];im.alt='';im.draggable=false;el.appendChild(im);
+  el.className=`hc ${size}`;el.dataset.cid=id;const im=document.createElement('img');im.src=window.HF_IMG[id];im.alt='';im.draggable=false;el.appendChild(im);
   el.setAttribute('aria-label',`${MONTHS[c.m-1]}に${c.n}`);
   return el;
 }
@@ -2336,7 +2430,8 @@ function renderKoi(g,mc){
   const picking=k.phase==='oyaPick'||k.phase==='oyaShow';
   $('kk').classList.toggle('picking',picking);
   if(picking){renderOya(g,mc);return}
-  const myPlay=live&&mc===k.turn&&k.phase==='play',myPick=live&&mc===k.turn&&k.phase==='pickDraw';
+  const prevRects=$('kk').hidden?null:kkSnap(); // 描き直す前の札の位置(動きの出発点)
+  const myPlay=live&&mc===k.turn&&k.phase==='play'&&!S.kkAnimating,myPick=live&&mc===k.turn&&k.phase==='pickDraw'&&!S.kkAnimating;
   const oh=$('kkOppHand');oh.innerHTML='';
   const ol=document.createElement('span');ol.className='note';ol.textContent=`${mc?'相手':'白'}の手札 ${k.hands[op].length}枚${k.oya===op?'・親':''}`;oh.appendChild(ol);
   k.hands[op].forEach(()=>oh.appendChild(backEl('sm')));
@@ -2370,6 +2465,12 @@ function renderKoi(g,mc){
     if(k.oya===me){const n=document.createElement('span');n.className='note';n.textContent='親';mh.appendChild(n)}
   }
   renderKoiPrompt(g,mc);
+  // 新しい手が来たら「出す→重ねる→取る」「めくる→重ねる→取る」を動きで見せる
+  const sid=k.seq?k.seq.id+':'+k.month:null;
+  if(sid&&S.kkSeqSeen!==undefined&&S.kkSeqSeen!==sid&&prevRects&&prevRects.ok)kkAnimate(k,prevRects,mc);
+  S.kkSeqSeen=sid;
+  kkApplyHide();
+  if(S.kkAnimating)$('kkPrompt').hidden=true;
 }
 function renderOya(g,mc){
   const k=g.kk,box=$('kkPrompt');box.innerHTML='';box.hidden=false;box.classList.add('result');
@@ -2393,7 +2494,7 @@ function renderOya(g,mc){
   box.appendChild(row);
   if(show){
     const t=document.createElement('div');t.textContent=`${who(k.oya)}が親です。1月は${who(k.oya)}から始めます`;box.appendChild(t);
-    if(isPlayer()){const b=document.createElement('button');b.className='primary';b.textContent='札を配る';b.onclick=()=>kAct(kkDeal(k.oya,1,k.totals));box.appendChild(b)}
+    if(isPlayer()){const b=document.createElement('button');b.className='primary';b.textContent='札を配る';b.onclick=()=>kAct(kkDeal(k.oya,1,k.totals,k.rules));box.appendChild(b)}
   }else{
     const t=document.createElement('div');t.className='note';
     t.textContent=(k.oyaRedo?'同じ月だったので引き直しです。':'')+'早い月を引いた人が親になります。2月からは親が交互に変わります。';
@@ -2417,15 +2518,16 @@ function renderKoiPrompt(g,mc){
   if(k.phase==='koikoi'&&mc===k.turn){
     box.hidden=false;
     const s=document.createElement('span');s.textContent=`今の役 ${kkScore(k.caps[mc])}点`;box.appendChild(s);
-    mk('こいこい','primary',()=>kAct(kDecide(k,true)));
-    mk('勝負(ここであがる)','',()=>kAct(kDecide(k,false)));
+    if(k.koi[mc]>=1){const n=document.createElement('span');n.className='note';n.textContent='こいこいはひと月に1回までなので、ここで勝負です';box.appendChild(n);
+      mk('勝負する','primary',()=>kAct(kDecide(k,false)))}
+    else{mk('こいこい','primary',()=>kAct(kDecide(k,true)));mk('勝負(ここであがる)','',()=>kAct(kDecide(k,false)))}
   }else if(k.phase==='roundEnd'){
     box.hidden=false;box.classList.add('result');
     const r=k.result,d=document.createElement('div');
     d.textContent=r.winner?`${r.yaku.map(y=>`${y.n} ${y.p}点`).join('・')}${r.notes.length?'(' + r.notes.join('、') + ')':''} → ${r.pts}点`:'どちらも役を作れず流局です';
     box.appendChild(d);
-    const t=document.createElement('div');t.className='note';t.textContent=`合計 黒 ${k.totals.B}点 / 白 ${k.totals.W}点(${k.month}/12月)`;box.appendChild(t);
-    if(isPlayer())mk(k.month>=12?'最終結果を見る':'次の月へ','primary',()=>kAct(kNext(k)));
+    const t=document.createElement('div');t.className='note';const last=(k.rules&&k.rules.months)||12;t.textContent=`合計 黒 ${k.totals.B}点 / 白 ${k.totals.W}点(${k.month}/${last}月)`;box.appendChild(t);
+    if(isPlayer())mk(k.month>=last?'最終結果を見る':'次の月へ','primary',()=>kAct(kNext(k)));
   }
   if(k.phase!=='roundEnd')box.classList.remove('result');
 }
@@ -2548,14 +2650,25 @@ async function answerUndo(yes){
   if(yes){const u=undoUpdate(g);if(!u)return write({undoReq:null},'');S.prevBoard=null;await write(u,'1手戻せませんでした。')}
   else await write({undoReq:null},'返事を送れませんでした。');
 }
+function askKoiRules(){
+  return new Promise(ok=>{
+    const sh=$('kkRules');sh.hidden=false;
+    const go=months=>{sh.hidden=true;ok({months,double7:$('kkDouble').checked})};
+    $('kkR6').onclick=()=>go(6);$('kkR12').onclick=()=>go(12);
+    $('kkRCancel').onclick=()=>{sh.hidden=true;ok(null)};
+  });
+}
 async function chooseGame(key){
   const g=S.g;
+  if(key==='koikoi'){const rules=await askKoiRules();if(!rules)return;
+    await write({...freshGame(key,{rules}),round:(g.round||1)+1},'ゲームを始められませんでした。');return}
   if(S.mode==='local'){S.g={...freshGame(key),round:(g.round||0)+1};S.prevBoard=null;render();return}
   const seats=key!=='koikoi'&&Math.random()<.5?{black:g.white,white:g.black}:{}; // 最初の先手はランダム(花札は札を引いて親を決める)
   await write({...freshGame(key),...seats,round:(g.round||1)+1},'ゲームを始められませんでした。');
 }
 async function rematch(){
   const g=S.g,key=gameOf(g);
+  if(key==='koikoi'){await write({...freshGame(key,{rules:g.kk&&g.kk.rules}),round:(g.round||1)+1},'再戦を始められませんでした。');return}
   if(S.mode==='local'){S.prevBoard=null;S.g={...freshGame(key),round:(g.round||0)+1};render();return}
   await write({...freshGame(key),black:g.white,white:g.black,round:(g.round||1)+1},'再戦を始められませんでした。');
 }
@@ -2582,6 +2695,7 @@ function enterRoom(){
   render();
 }
 function leave(){
+  S.kkAnimating=false;if(S.kkHide)S.kkHide.clear();const fx=$('kkFx');if(fx)fx.innerHTML='';S.kkSeqSeen=undefined;
   try{localStorage.removeItem(SESS)}catch(e){}
   if(S.mode==='online'&&S.mySeat&&S.g&&S.db){const up=removeUpdate(S.g,S.me);if(up)roomRef().update(up).catch(()=>{})}
   S.mySeat=null;stopPresence();
